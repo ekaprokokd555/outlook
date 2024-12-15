@@ -2,9 +2,6 @@ import random
 import string
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -12,6 +9,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 # Fungsi untuk membuat username dan password acak
 def generate_random_string(length=8):
     """Generate a random string of uppercase, lowercase letters and digits."""
+    import random
+    import string
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for i in range(length))
 
@@ -19,7 +18,12 @@ def generate_random_string(length=8):
 def create_outlook_account():
     # Set up Selenium WebDriver
     chrome_options = Options()
+    
+    # Tentukan lokasi binary Chrome secara eksplisit
+    chrome_options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"  # Sesuaikan dengan path di sistem kamu
+    
     chrome_options.add_argument("--headless")  # Menjalankan di background tanpa membuka browser
+    
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
     try:
@@ -27,6 +31,7 @@ def create_outlook_account():
         driver.get('https://signup.live.com/')
 
         # Tunggu halaman sepenuhnya dimuat
+        import time
         time.sleep(2)
 
         # Isi form dengan data acak
